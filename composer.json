@@ -55,11 +55,8 @@
         "spatie/laravel-translatable": "^1.1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4",
-        "phpunit/phpunit": "~4.0",
-        "mockery/mockery": "^0.9.4",
-        "fzaninotto/faker": "~1.4",
-        "orchestra/testbench": "~3.1"
+        "phpunit/phpunit": "^5.4.0",
+        "illuminate/container": "^5.1.0"
     },
     "autoload": {
         "classmap": [
@@ -76,7 +73,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "1.0-dev"
         }
     }
 }
