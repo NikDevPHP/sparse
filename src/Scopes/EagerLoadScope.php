@@ -13,7 +13,7 @@
  * Link:    https://rinvex.com
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Rinvex\Sparse\Scopes;
 

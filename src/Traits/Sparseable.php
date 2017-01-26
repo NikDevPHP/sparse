@@ -73,10 +73,10 @@ trait Sparseable
         $attributes = DB::table('sparse_attribute_entity')->where('entity_type', static::class)->get()->pluck('attribute_id');
         static::$entityAttributes = Attribute::whereIn('id', $attributes)->get()->keyBy('slug');
 
-        static::addGlobalScope(new EagerLoadScope);
+        static::addGlobalScope(new EagerLoadScope());
 
-        static::saved(EntityWasSaved::class . '@handle');
-        static::deleted(EntityWasDeleted::class . '@handle');
+        static::saved(EntityWasSaved::class.'@handle');
+        static::deleted(EntityWasDeleted::class.'@handle');
     }
 
     /**
@@ -214,7 +214,7 @@ trait Sparseable
      * Set the entity attribute relation.
      *
      * @param string $relation
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
@@ -330,7 +330,7 @@ trait Sparseable
      * Set the entity attribute.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return mixed
      */
@@ -344,7 +344,7 @@ trait Sparseable
         // us assume at least an empty collection object will be always provided.
         if ($attribute->isCollection()) {
             if (is_null($current)) {
-                $this->setRelation($key, $current = new ValueCollection);
+                $this->setRelation($key, $current = new ValueCollection());
             }
 
             $current->replace($value);
@@ -378,7 +378,7 @@ trait Sparseable
     {
         if (! is_null($value) && ! $value instanceof Value) {
             $model = $attribute->getAttribute('type');
-            $instance = new $model;
+            $instance = new $model();
 
             $instance->setAttribute('entity_id', $this->getKey());
             $instance->setAttribute($attribute->getForeignKey(), $attribute->getKey());
@@ -393,7 +393,7 @@ trait Sparseable
     /**
      * Determine if the given key is a raw entity attribute.
      *
-     * @param  string $key
+     * @param string $key
      *
      * @return bool
      */
@@ -445,8 +445,8 @@ trait Sparseable
     /**
      * Dynamically pipe calls to attribute relations.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array  $parameters
      *
      * @return mixed
      */
@@ -472,7 +472,7 @@ trait Sparseable
 
             foreach ($relations as $key => $value) {
                 if ($value instanceof Closure) {
-                    $this->setEntityAttributeRelation($key, (new Serializer)->serialize($value));
+                    $this->setEntityAttributeRelation($key, (new Serializer())->serialize($value));
                 }
             }
         }
@@ -495,7 +495,7 @@ trait Sparseable
 
             foreach ($relations as $key => $value) {
                 if (is_string($value)) {
-                    $this->setEntityAttributeRelation($key, (new Serializer)->unserialize($value));
+                    $this->setEntityAttributeRelation($key, (new Serializer())->unserialize($value));
                 }
             }
         }

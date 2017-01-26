@@ -41,7 +41,8 @@ class EntityWasSaved
     /**
      * Save values when an entity is saved.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $entity
+     * @param \Illuminate\Database\Eloquent\Model $entity
+     *
      * @throws \Exception
      *
      * @return void
@@ -64,7 +65,7 @@ class EntityWasSaved
                         foreach ($relationValue as $value) {
                             $this->saveOrTrashValue($value->setAttribute('entity_id', $this->entity->getKey()));
                         }
-                    } else if (! is_null($relationValue)) {
+                    } elseif (! is_null($relationValue)) {
                         $this->saveOrTrashValue($relationValue->setAttribute('entity_id', $this->entity->getKey()));
                     }
                 }
