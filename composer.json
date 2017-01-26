@@ -60,7 +60,7 @@
     },
     "autoload": {
         "classmap": [
-            "migrations"
+            "database"
         ],
         "psr-4": {
             "Rinvex\\Sparse\\": "src"
