@@ -22,7 +22,14 @@ use Rinvex\Sparse\Models\Value;
 class Integer extends Value
 {
     /**
-     * {@inheritdoc}
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
      */
-    protected $table = 'sparse_values_integer';
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('rinvex.sparse.tables.values_integer'));
+    }
 }

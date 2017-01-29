@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseValuesIntegerTable extends Migration
+class CreateValuesDateTimeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,10 +28,10 @@ class CreateSparseValuesIntegerTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_values_integer', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.values_datetime'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
-            $table->integer('content');
+            $table->dateTime('content');
             $table->unsignedInteger('attribute_id');
             $table->unsignedInteger('entity_id');
 
@@ -54,6 +54,6 @@ class CreateSparseValuesIntegerTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_values_integer');
+        Schema::drop(config('rinvex.sparse.tables.values_datetime'));
     }
 }

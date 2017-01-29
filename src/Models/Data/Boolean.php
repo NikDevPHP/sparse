@@ -24,10 +24,17 @@ class Boolean extends Value
     /**
      * {@inheritdoc}
      */
-    protected $table = 'sparse_values_boolean';
+    protected $casts = ['content' => 'boolean'];
 
     /**
-     * {@inheritdoc}
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
      */
-    protected $casts = ['content' => 'boolean'];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('rinvex.sparse.tables.values_boolean'));
+    }
 }

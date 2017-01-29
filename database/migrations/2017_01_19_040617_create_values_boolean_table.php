@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseAttributesTable extends Migration
+class CreateValuesBooleanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,18 +28,19 @@ class CreateSparseAttributesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_attributes', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.values_boolean'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
-            $table->json('name');
-            $table->string('slug');
-            $table->json('description')->nullable();
-            $table->unsignedInteger('order')->default(0);
-            $table->string('group')->nullable();
-            $table->string('type');
-            $table->boolean('collection')->default(false);
-            $table->text('default')->nullable();
-            $table->timestamps();
+            $table->boolean('content');
+            $table->unsignedInteger('attribute_id');
+            $table->unsignedInteger('entity_id');
+
+            // Indexes
+            $table->foreign('attribute_id')
+                  ->references('id')
+                  ->on('sparse_attributes')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             // Engine
             $table->engine = 'InnoDB';
@@ -53,6 +54,6 @@ class CreateSparseAttributesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_attributes');
+        Schema::drop(config('rinvex.sparse.tables.values_boolean'));
     }
 }

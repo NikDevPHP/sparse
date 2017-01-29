@@ -36,11 +36,6 @@ class Attribute extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
-    protected $table = 'sparse_attributes';
-
-    /**
-     * {@inheritdoc}
-     */
     protected $fillable = [
         'name',
         'slug',
@@ -65,6 +60,18 @@ class Attribute extends Model implements Sortable
      * {@inheritdoc}
      */
     public $sortable = ['order_column_name' => 'order'];
+
+    /**
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('rinvex.sparse.tables.attributes'));
+    }
 
     /**
      * Get the entities attached to this attribute.

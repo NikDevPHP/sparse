@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseValuesVarcharTable extends Migration
+class CreateValuesVarcharTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,7 +28,7 @@ class CreateSparseValuesVarcharTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_values_varchar', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.values_varchar'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
             $table->string('content');
@@ -54,6 +54,6 @@ class CreateSparseValuesVarcharTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_values_varchar');
+        Schema::drop(config('rinvex.sparse.tables.values_varchar'));
     }
 }

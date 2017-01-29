@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseAttributeEntityTable extends Migration
+class CreateValuesIntegerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,13 +28,14 @@ class CreateSparseAttributeEntityTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_attribute_entity', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.values_integer'), function (Blueprint $table) {
             // Columns
+            $table->increments('id');
+            $table->integer('content');
             $table->unsignedInteger('attribute_id');
-            $table->string('entity_type');
+            $table->unsignedInteger('entity_id');
 
             // Indexes
-            $table->unique(['attribute_id', 'entity_type'], 'sparse_attribute_id_entity_type');
             $table->foreign('attribute_id')
                   ->references('id')
                   ->on('sparse_attributes')
@@ -53,6 +54,6 @@ class CreateSparseAttributeEntityTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_attribute_entity');
+        Schema::drop(config('rinvex.sparse.tables.values_integer'));
     }
 }

@@ -22,7 +22,14 @@ use Rinvex\Sparse\Models\Value;
 class Varchar extends Value
 {
     /**
-     * {@inheritdoc}
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
      */
-    protected $table = 'sparse_values_varchar';
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('rinvex.sparse.tables.values_varchar'));
+    }
 }

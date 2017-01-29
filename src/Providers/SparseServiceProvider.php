@@ -26,7 +26,8 @@ class SparseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Merge config
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.sparse');
     }
 
     /**
@@ -34,6 +35,11 @@ class SparseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Publish config
+        $this->publishes([
+            realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.sparse.php'),
+        ], 'config');
+
         if ($this->app->runningInConsole()) {
             // Load migrations
             $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');

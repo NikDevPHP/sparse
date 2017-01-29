@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseValuesBooleanTable extends Migration
+class CreateAttributeEntityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,14 +28,13 @@ class CreateSparseValuesBooleanTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_values_boolean', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.attribute_entity'), function (Blueprint $table) {
             // Columns
-            $table->increments('id');
-            $table->boolean('content');
             $table->unsignedInteger('attribute_id');
-            $table->unsignedInteger('entity_id');
+            $table->string('entity_type');
 
             // Indexes
+            $table->unique(['attribute_id', 'entity_type'], 'sparse_attribute_id_entity_type');
             $table->foreign('attribute_id')
                   ->references('id')
                   ->on('sparse_attributes')
@@ -54,6 +53,6 @@ class CreateSparseValuesBooleanTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_values_boolean');
+        Schema::drop(config('rinvex.sparse.tables.attribute_entity'));
     }
 }

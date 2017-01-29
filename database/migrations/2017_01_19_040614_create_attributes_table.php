@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSparseValuesDateTimeTable extends Migration
+class CreateAttributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,19 +28,18 @@ class CreateSparseValuesDateTimeTable extends Migration
      */
     public function up()
     {
-        Schema::create('sparse_values_datetime', function (Blueprint $table) {
+        Schema::create(config('rinvex.sparse.tables.attributes'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
-            $table->dateTime('content');
-            $table->unsignedInteger('attribute_id');
-            $table->unsignedInteger('entity_id');
-
-            // Indexes
-            $table->foreign('attribute_id')
-                  ->references('id')
-                  ->on('sparse_attributes')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            $table->json('name');
+            $table->string('slug');
+            $table->json('description')->nullable();
+            $table->unsignedInteger('order')->default(0);
+            $table->string('group')->nullable();
+            $table->string('type');
+            $table->boolean('collection')->default(false);
+            $table->text('default')->nullable();
+            $table->timestamps();
 
             // Engine
             $table->engine = 'InnoDB';
@@ -54,6 +53,6 @@ class CreateSparseValuesDateTimeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sparse_values_datetime');
+        Schema::drop(config('rinvex.sparse.tables.attributes'));
     }
 }

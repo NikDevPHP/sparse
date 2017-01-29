@@ -171,7 +171,7 @@ This class creates the Eloquent relations to the attribute values based on their
     php artisan migrate --path="vendor/rinvex/sparse/database/migrations"
     ```
 
-3. **Optionally** add the following service provider to the `'providers'` array inside `app/config/app.php`:
+3. Add the following service provider to the `'providers'` array inside `app/config/app.php`:
     ```php
     Rinvex\Sparse\Providers\SparseServiceProvider::class
     ```

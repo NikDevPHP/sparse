@@ -24,10 +24,17 @@ class Datetime extends Value
     /**
      * {@inheritdoc}
      */
-    protected $table = 'sparse_values_datetime';
+    protected $dates = ['content'];
 
     /**
-     * {@inheritdoc}
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
      */
-    protected $dates = ['content'];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('rinvex.sparse.tables.values_datetime'));
+    }
 }
