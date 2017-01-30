@@ -169,7 +169,7 @@ trait Sparseable
     /**
      * Get the entity attributes.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection|null
      */
     public function getEntityAttributes()
     {
@@ -421,9 +421,7 @@ trait Sparseable
      */
     public function attributes()
     {
-        $attributes = DB::table('sparse_attribute_entity')->where('entity_type', static::class)->get()->pluck('attribute_id');
-
-        return Attribute::whereIn('id', $attributes)->get();
+        return $this->getEntityAttributes();
     }
 
     /**
