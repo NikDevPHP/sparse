@@ -35,6 +35,8 @@ This package is a rewritten fork of the awesome [IsraelOrtuno](https://github.co
 - [Installation](#installation)
 - [Usage](#usage)
     - [Add EAV to Eloquent model](#add-eav-to-eloquent-model)
+    - [Register Your Own Types](#register-your-own-types)
+    - [Register Your Entities](#register-your-entities)
     - [Create New Attribute](#create-new-attribute)
     - [Querying models](#querying-models)
     - [Eager loading](#eager-loading)
@@ -204,6 +206,19 @@ class Company extends Model
 
 That's it, we only have to include that trait in our Eloquent model!
 
+### Register Your Own Types
+
+```php
+app('rinvex.sparse.types')->push(\Path\To\Your\Type::class);
+```
+You can call the `'rinvex.sparse.types'` service from anywhere in your application, and anytime in the request lifecycle (preferred inside the `boot` method of a service provider). It's a singleton object, holds a pure Laravel [Collection](https://laravel.com/docs/master/collections).
+
+### Register Your Entities
+
+```php
+app('rinvex.sparse.entities')->push(\Path\To\Your\Entity::class);
+```
+You can call the `'rinvex.sparse.entities'` service from anywhere in your application, and anytime in the request lifecycle (preferred inside the `boot` method of a service provider). It's a singleton object, holds a pure Laravel [Collection](https://laravel.com/docs/master/collections).
 
 ### Create New Attribute
 
