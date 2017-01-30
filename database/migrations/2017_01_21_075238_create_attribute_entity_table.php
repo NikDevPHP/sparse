@@ -37,7 +37,7 @@ class CreateAttributeEntityTable extends Migration
             $table->unique(['attribute_id', 'entity_type'], 'sparse_attribute_id_entity_type');
             $table->foreign('attribute_id')
                   ->references('id')
-                  ->on('sparse_attributes')
+                  ->on(config('rinvex.sparse.tables.attributes'))
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
 

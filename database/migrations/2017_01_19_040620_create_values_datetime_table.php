@@ -38,7 +38,7 @@ class CreateValuesDateTimeTable extends Migration
             // Indexes
             $table->foreign('attribute_id')
                   ->references('id')
-                  ->on('sparse_attributes')
+                  ->on(config('rinvex.sparse.tables.attributes'))
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
 
