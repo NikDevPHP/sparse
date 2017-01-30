@@ -84,25 +84,39 @@ class Attribute extends Model implements Sortable
     }
 
     /**
-     * Check if attribute is multivalued.
+     * Set the translatable name attribute.
      *
-     * @return bool
+     * @param string $value
+     *
+     * @return void
      */
-    public function isCollection()
+    public function setNameAttribute($value)
     {
-        return (bool) $this->getAttribute('collection');
+        $this->attributes['name'] = ! is_array($value) ? json_encode([app()->getLocale() => $value]) : $value;
     }
 
     /**
-     * Get the options for generating the slug.
+     * Set the translatable description attribute.
      *
-     * @return \Spatie\Sluggable\SlugOptions
+     * @param string $value
+     *
+     * @return void
      */
-    public function getSlugOptions(): SlugOptions
+    public function setDescriptionAttribute($value)
     {
-        return SlugOptions::create()
-                          ->generateSlugsFrom('name')
-                          ->saveSlugsTo('slug');
+        $this->attributes['description'] = ! is_array($value) ? json_encode([app()->getLocale() => $value]) : $value;
+    }
+
+    /**
+     * Enforce clean slugs.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = str_slug($value);
     }
 
     /**
@@ -123,5 +137,27 @@ class Attribute extends Model implements Sortable
             DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('attribute_id', $model->id)->delete();
             DB::table(config('rinvex.sparse.tables.attribute_entity'))->insert($values);
         });
+    }
+
+    /**
+     * Check if attribute is multivalued.
+     *
+     * @return bool
+     */
+    public function isCollection()
+    {
+        return (bool) $this->getAttribute('collection');
+    }
+
+    /**
+     * Get the options for generating the slug.
+     *
+     * @return \Spatie\Sluggable\SlugOptions
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+                          ->generateSlugsFrom('name')
+                          ->saveSlugsTo('slug');
     }
 }
