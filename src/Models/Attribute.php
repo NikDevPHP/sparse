@@ -80,7 +80,7 @@ class Attribute extends Model implements Sortable
      */
     public function entities()
     {
-        return DB::table('sparse_attribute_entity')->where('attribute_id', $this->getKey())->get()->pluck('entity_type');
+        return DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('attribute_id', $this->getKey())->get()->pluck('entity_type');
     }
 
     /**
@@ -120,8 +120,8 @@ class Attribute extends Model implements Sortable
                 $values[] = ['attribute_id' => $model->id, 'entity_type' => $entity];
             }
 
-            DB::table('sparse_attribute_entity')->where('attribute_id', $model->id)->delete();
-            DB::table('sparse_attribute_entity')->insert($values);
+            DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('attribute_id', $model->id)->delete();
+            DB::table(config('rinvex.sparse.tables.attribute_entity'))->insert($values);
         });
     }
 }
