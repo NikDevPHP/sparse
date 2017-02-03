@@ -49,11 +49,6 @@ class SparseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publish config
-        $this->publishes([
-            realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.sparse.php'),
-        ], 'config');
-
         // Add default sparse types
         app('rinvex.sparse.types')->push(Boolean::class);
         app('rinvex.sparse.types')->push(Integer::class);
@@ -66,8 +61,13 @@ class SparseServiceProvider extends ServiceProvider
 
             // Publish migrations
             $this->publishes([
-                realpath(__DIR__.'/../database/migrations') => database_path('migrations'),
+                realpath(__DIR__.'/../../database/migrations') => database_path('migrations'),
             ], 'migrations');
+
+            // Publish config
+            $this->publishes([
+                realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.sparse.php'),
+            ], 'config');
         }
     }
 }

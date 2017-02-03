@@ -104,7 +104,7 @@ class Attribute extends Model implements Sortable
      */
     public function setDescriptionAttribute($value)
     {
-        $this->attributes['description'] = ! is_array($value) ? json_encode([app()->getLocale() => $value]) : $value;
+        $this->attributes['description'] = ! is_array($value) && ! empty($value) ? json_encode([app()->getLocale() => $value]) : $value;
     }
 
     /**
