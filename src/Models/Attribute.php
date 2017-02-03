@@ -73,7 +73,7 @@ class Attribute extends Model implements Sortable
     /**
      * Whether the model should throw a ValidationException if it fails validation.
      *
-     * @var boolean
+     * @var bool
      */
     protected $throwValidationExceptions = true;
 
