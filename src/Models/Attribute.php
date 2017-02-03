@@ -21,6 +21,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\Sortable;
+use Watson\Validating\ValidatingTrait;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -31,6 +32,7 @@ class Attribute extends Model implements Sortable
     use HasSlug;
     use SortableTrait;
     use HasTranslations;
+    use ValidatingTrait;
     use CacheableEloquent;
 
     /**
@@ -62,6 +64,20 @@ class Attribute extends Model implements Sortable
     public $sortable = ['order_column_name' => 'order'];
 
     /**
+     * The default rules that the model will validate against.
+     *
+     * @var array
+     */
+    protected $rules = [];
+
+    /**
+     * Whether the model should throw a ValidationException if it fails validation.
+     *
+     * @var boolean
+     */
+    protected $throwValidationExceptions = true;
+
+    /**
      * Create a new Eloquent model instance.
      *
      * @param array $attributes
@@ -71,6 +87,10 @@ class Attribute extends Model implements Sortable
         parent::__construct($attributes);
 
         $this->setTable(config('rinvex.sparse.tables.attributes'));
+        $this->setRules([
+            'name' => 'required',
+            'slug' => 'required|unique:'.config('rinvex.sparse.tables.attributes').',slug',
+        ]);
     }
 
     /**
