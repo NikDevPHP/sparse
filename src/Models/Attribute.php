@@ -88,8 +88,9 @@ class Attribute extends Model implements Sortable
 
         $this->setTable(config('rinvex.sparse.tables.attributes'));
         $this->setRules([
-            'name' => 'required',
-            'slug' => 'required|unique:'.config('rinvex.sparse.tables.attributes').',slug',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'slug' => 'required|alpha_dash|unique:'.config('rinvex.sparse.tables.attributes').',slug',
         ]);
     }
 
