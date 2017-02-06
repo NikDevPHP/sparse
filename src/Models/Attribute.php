@@ -89,19 +89,10 @@ class Attribute extends Model implements Sortable
         $this->setTable(config('rinvex.sparse.tables.attributes'));
         $this->setRules([
             'name' => 'required|string',
+            'type' => 'required|string',
             'description' => 'nullable|string',
             'slug' => 'required|alpha_dash|unique:'.config('rinvex.sparse.tables.attributes').',slug',
         ]);
-    }
-
-    /**
-     * Get the entities attached to this attribute.
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-    public function entities()
-    {
-        return DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('attribute_id', $this->getKey())->get()->pluck('entity_type');
     }
 
     /**
@@ -113,7 +104,7 @@ class Attribute extends Model implements Sortable
      */
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = ! is_array($value) ? json_encode([app()->getLocale() => $value]) : $value;
+        $this->attributes['name'] = json_encode(! is_array($value) ? [app()->getLocale() => $value] : $value);
     }
 
     /**
@@ -125,7 +116,7 @@ class Attribute extends Model implements Sortable
      */
     public function setDescriptionAttribute($value)
     {
-        $this->attributes['description'] = ! is_array($value) && ! empty($value) ? json_encode([app()->getLocale() => $value]) : $value;
+        $this->attributes['description'] = ! empty($value) ? json_encode(! is_array($value) ? [app()->getLocale() => $value] : $value) : null;
     }
 
     /**
@@ -138,6 +129,16 @@ class Attribute extends Model implements Sortable
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = str_slug($value);
+    }
+
+    /**
+     * Get the entities attached to this attribute.
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function getEntitiesAttribute()
+    {
+        return DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('attribute_id', $this->getKey())->get()->pluck('entity_type')->toArray();
     }
 
     /**
