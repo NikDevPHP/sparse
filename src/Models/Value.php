@@ -26,6 +26,11 @@ abstract class Value extends Model
     use CacheableEloquent;
 
     /**
+     * {@inheritdoc}
+     */
+    public $timestamps = false;
+
+    /**
      * Determine if value should push to relations when saving.
      *
      * @var bool
