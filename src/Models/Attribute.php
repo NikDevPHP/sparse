@@ -53,6 +53,11 @@ class Attribute extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
+    protected $observables = ['validating', 'validated'];
+
+    /**
+     * {@inheritdoc}
+     */
     public $translatable = [
         'name',
         'description',
@@ -93,6 +98,27 @@ class Attribute extends Model implements Sortable
             'description' => 'nullable|string',
             'slug' => 'required|alpha_dash|unique:'.config('rinvex.sparse.tables.attributes').',slug',
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        if (isset(static::$dispatcher)) {
+            // Early auto generate slugs before validation
+            static::$dispatcher->listen('eloquent.validating: '.static::class, function ($model, $event) {
+                if (! $model->slug) {
+                    if ($model->exists) {
+                        $model->generateSlugOnCreate();
+                    } else {
+                        $model->generateSlugOnUpdate();
+                    }
+                }
+            });
+        }
     }
 
     /**
