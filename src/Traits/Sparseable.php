@@ -70,7 +70,8 @@ trait Sparseable
      */
     public static function bootSparseable()
     {
-        $attributes = DB::table(config('rinvex.sparse.tables.attribute_entity'))->where('entity_type', static::class)->get()->pluck('attribute_id');
+        $models = array_merge([static::class], array_values(class_parents(static::class)));
+        $attributes = DB::table(config('rinvex.sparse.tables.attribute_entity'))->whereIn('entity_type', $models)->get()->pluck('attribute_id');
         static::$entityAttributes = Attribute::whereIn('id', $attributes)->get()->keyBy('slug');
 
         static::addGlobalScope(new EagerLoadScope());
